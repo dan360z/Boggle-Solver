@@ -14,7 +14,7 @@ def make_grid(width, height):
         
 def neighbours_of_position(coords):
     """
-    Get neighboursof a given position
+    Get neighbours of a given position
     """
     row = coords[0]
     col = coords[1]
@@ -58,6 +58,12 @@ def path_to_word(grid, path):
     """
     return ''.join([grid[p] for p in path])
     
+def word_in_dictionary(word, dict):
+    """
+    Moved into own function form do_search---------------------------
+    """
+    return word in dict
+    
 def search(grid, dictionary):
     """
     Search through the paths to locate words by matching 
@@ -68,7 +74,7 @@ def search(grid, dictionary):
     
     def do_search(path):
         word = path_to_word(grid, path)
-        if word in dictionary:
+        if word_in_dictionary(word, dictionary):
             paths.append(path)
         for next_pos in neighbours[path[-1]]:
             if next_pos not in path:
@@ -87,7 +93,13 @@ def get_dictionary(dictionary_file):
     Load Dictionary file
     """
     with open(dictionary_file) as f:
-        return [w.strip().upper() for w in f]
+        return {w.strip().upper() for w in f} #Changed from [] to {}. To use a set instead of a list
+        
+        
+def display_words(words):
+    for word in words:
+        print(word)
+    print("Found %s words" % len(words))
         
 
 def main():
@@ -97,12 +109,10 @@ def main():
     grid = make_grid(3, 3)
     dictionary = get_dictionary('words.txt')
     words = search(grid, dictionary)
-    for word in words:
-        print(word)
-    print("Found %s words" % len(words))  
+    display_words(words)
    
    
-    
 if __name__ == "__main__": 
+    #Code in here will only execute when the file is run directly
     main()    
         

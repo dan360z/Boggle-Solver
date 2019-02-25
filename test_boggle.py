@@ -7,7 +7,6 @@ class TestBoggle(unittest.TestCase):
     Our test suite for boggle solver
     """
     
-    
     def test_can_create_an_empty_grid(self):
         """
         Test to see if we can create an empty grid
